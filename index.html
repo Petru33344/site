@@ -1,88 +1,232 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ro">
-
 <head>
     <meta charset="UTF-8">
-    <title>Magazinul meu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Magazinul lui Petru</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            background-color: #19cee3;
-            margin: 0;
-            padding: 30px;
+            background: #0f0f0f;
+            color: white;
+        }
+
+        /* MENIU */
+        header {
+            width: 100%;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #111;
+            border-bottom: 1px solid #292929;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 25px;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: #ff3b30;
+        }
+
+        /* HERO */
+        .hero {
             text-align: center;
+            padding: 80px 20px 40px;
         }
 
-        h1 {
-            color: #222;
-            font-size: 40px;
+        .hero h1 {
+            font-size: 52px;
+            margin-bottom: 15px;
         }
 
-        h2 {
-            color: #555;
+        .hero h1 span {
+            color: #ff3b30;
+        }
+
+        .hero p {
+            color: #aaa;
+            font-size: 18px;
+        }
+
+        /* PRODUSE */
+        .produse {
+            display: flex;
+            justify-content: center;
+            padding: 40px 20px 80px;
         }
 
         .produs {
-            background-color: rgb(249, 249, 249);
-            width: 250px;
-            margin: 30px auto;
+            background: #181818;
+            width: 320px;
             padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            transition: 0.3s;
+        }
+
+        .produs:hover {
+            transform: translateY(-8px);
         }
 
         .produs img {
             width: 100%;
-            border-radius: 10px;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 15px;
         }
 
         .produs h3 {
-            font-size: 22px;
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        .descriere {
+            color: #aaa;
+            margin: 10px 0;
+            line-height: 1.5;
         }
 
         .pret {
-            font-size: 20px;
+            font-size: 24px;
             font-weight: bold;
-            color: #e63946;
+            color: #ff3b30;
+            margin: 15px 0;
         }
 
+        /* BUTON */
         button {
-            background-color: #111;
+            width: 100%;
+            background: #ff3b30;
             color: white;
             border: none;
-            padding: 12px 20px;
-            border-radius: 8px;
+            padding: 15px;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 17px;
+            font-weight: bold;
+            transition: 0.3s;
         }
 
         button:hover {
-            background-color: #333;
+            background: #ff554d;
+            transform: scale(1.02);
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 25px;
+            background: #111;
+            color: #777;
+        }
+
+        /* TELEFON */
+        @media (max-width: 600px) {
+
+            header {
+                padding: 18px 20px;
+            }
+
+            nav a {
+                margin-left: 10px;
+                font-size: 14px;
+            }
+
+            .hero {
+                padding-top: 60px;
+            }
+
+            .hero h1 {
+                font-size: 38px;
+            }
+
+            .produs {
+                width: 100%;
+                max-width: 350px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <h1>Magazinul lui Petru 🛍️</h1>
+    <!-- MENIU -->
+    <header>
+        <div class="logo">PETRU SHOP 🛍️</div>
 
-    <h2>Produsele mele</h2>
+        <nav>
+            <a href="#">Acasă</a>
+            <a href="#produse">Produse</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
 
-    <div class="produs">
 
-        <img src="Screenshot 2026-08-21 153858.png" alt="Pantofi Jordan">
+    <!-- INTRODUCERE -->
+    <section class="hero">
+        <h1>Descoperă <span>colecția</span> noastră</h1>
 
-        <h3>Pantofi Jordan</h3>
+        <p>
+            Pantofi sport pentru stil, confort și performanță.
+        </p>
+    </section>
 
-        <p>Pantofi sport confortabili, potriviți pentru baschet.</p>
 
-        <p class="pret">499 lei</p>
+    <!-- PRODUS -->
+    <section class="produse" id="produse">
 
-        <button>Adaugă în coș</button>
+        <div class="produs">
 
-    </div>
+            <img src="Screenshot 2026-08-21 153858.png"
+                 alt="Pantofi Jordan">
+
+            <h3>Pantofi Jordan</h3>
+
+            <p class="descriere">
+                Pantofi sport confortabili, potriviți pentru baschet
+                și pentru ținutele de zi cu zi.
+            </p>
+
+            <p class="pret">499 lei</p>
+
+            <button onclick="adaugaCos()">
+                🛒 Adaugă în coș
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- CONTACT -->
+    <footer id="contact">
+        © 2026 Petru Shop • Toate drepturile rezervate
+    </footer>
+
+
+    <script>
+        function adaugaCos() {
+            alert("Produsul a fost adăugat în coș! 🛒");
+        }
+    </script>
 
 </body>
-
 </html>
