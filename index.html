@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Magazinul lui Petru</title>
+    <title>Petru Shop</title>
 
     <style>
         * {
@@ -19,15 +19,14 @@
             color: white;
         }
 
-        /* MENIU */
+        /* HEADER */
         header {
-            width: 100%;
             padding: 20px 8%;
+            background: #111;
+            border-bottom: 1px solid #292929;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: #111;
-            border-bottom: 1px solid #292929;
         }
 
         .logo {
@@ -39,11 +38,21 @@
             color: white;
             text-decoration: none;
             margin-left: 25px;
-            transition: 0.3s;
         }
 
         nav a:hover {
             color: #ff3b30;
+        }
+
+        /* COS */
+        .cos-btn {
+            background: #ff3b30;
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
         }
 
         /* HERO */
@@ -66,7 +75,7 @@
             font-size: 18px;
         }
 
-        /* PRODUSE */
+        /* PRODUS */
         .produse {
             display: flex;
             justify-content: center;
@@ -79,11 +88,6 @@
             padding: 20px;
             border-radius: 20px;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
-            transition: 0.3s;
-        }
-
-        .produs:hover {
-            transform: translateY(-8px);
         }
 
         .produs img {
@@ -111,7 +115,6 @@
             margin: 15px 0;
         }
 
-        /* BUTON */
         button {
             width: 100%;
             background: #ff3b30;
@@ -122,12 +125,63 @@
             cursor: pointer;
             font-size: 17px;
             font-weight: bold;
-            transition: 0.3s;
         }
 
         button:hover {
             background: #ff554d;
-            transform: scale(1.02);
+        }
+
+        /* FEREASTRA COS */
+        .cos {
+            display: none;
+            position: fixed;
+            right: 20px;
+            top: 80px;
+            width: 330px;
+            max-width: calc(100% - 40px);
+            background: #1b1b1b;
+            border: 1px solid #333;
+            border-radius: 15px;
+            padding: 20px;
+            z-index: 1000;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        }
+
+        .cos.activ {
+            display: block;
+        }
+
+        .cos h2 {
+            margin-bottom: 15px;
+        }
+
+        .produs-cos {
+            padding: 12px 0;
+            border-bottom: 1px solid #333;
+        }
+
+        .cantitate {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .cantitate button {
+            width: 35px;
+            padding: 7px;
+            font-size: 16px;
+        }
+
+        .total {
+            font-size: 21px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .inchide {
+            background: #333;
+            margin-top: 10px;
         }
 
         /* FOOTER */
@@ -142,16 +196,11 @@
         @media (max-width: 600px) {
 
             header {
-                padding: 18px 20px;
+                padding: 18px 15px;
             }
 
-            nav a {
-                margin-left: 10px;
-                font-size: 14px;
-            }
-
-            .hero {
-                padding-top: 60px;
+            nav {
+                display: none;
             }
 
             .hero h1 {
@@ -162,31 +211,48 @@
                 width: 100%;
                 max-width: 350px;
             }
+
+            .cos {
+                right: 10px;
+                top: 75px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <!-- MENIU -->
+    <!-- HEADER -->
     <header>
-        <div class="logo">PETRU SHOP 🛍️</div>
+
+        <div class="logo">
+            PETRU SHOP 🛍️
+        </div>
 
         <nav>
             <a href="#">Acasă</a>
             <a href="#produse">Produse</a>
             <a href="#contact">Contact</a>
         </nav>
+
+        <button class="cos-btn" onclick="deschideCos()">
+            🛒 Coș (<span id="numarCos">0</span>)
+        </button>
+
     </header>
 
 
-    <!-- INTRODUCERE -->
+    <!-- HERO -->
     <section class="hero">
-        <h1>Descoperă <span>colecția</span> noastră</h1>
+
+        <h1>
+            Descoperă <span>colecția</span> noastră
+        </h1>
 
         <p>
             Pantofi sport pentru stil, confort și performanță.
         </p>
+
     </section>
 
 
@@ -205,7 +271,9 @@
                 și pentru ținutele de zi cu zi.
             </p>
 
-            <p class="pret">499 lei</p>
+            <p class="pret">
+                499 lei
+            </p>
 
             <button onclick="adaugaCos()">
                 🛒 Adaugă în coș
@@ -216,16 +284,119 @@
     </section>
 
 
-    <!-- CONTACT -->
+    <!-- COS -->
+    <div class="cos" id="cos">
+
+        <h2>🛒 Coșul tău</h2>
+
+        <div id="continutCos">
+            Coșul este gol.
+        </div>
+
+        <div class="total">
+            Total: <span id="total">0</span> lei
+        </div>
+
+        <button class="inchide" onclick="deschideCos()">
+            Închide
+        </button>
+
+    </div>
+
+
+    <!-- FOOTER -->
     <footer id="contact">
+
         © 2026 Petru Shop • Toate drepturile rezervate
+
     </footer>
 
 
     <script>
+
+        let cantitate = 0;
+
+        const pretProdus = 499;
+
+
         function adaugaCos() {
-            alert("Produsul a fost adăugat în coș! 🛒");
+
+            cantitate++;
+
+            actualizeazaCos();
+
+            document.getElementById("cos").classList.add("activ");
+
         }
+
+
+        function scadeProdus() {
+
+            if (cantitate > 0) {
+
+                cantitate--;
+
+                actualizeazaCos();
+
+            }
+
+        }
+
+
+        function actualizeazaCos() {
+
+            document.getElementById("numarCos").textContent = cantitate;
+
+            const continut = document.getElementById("continutCos");
+
+            const total = document.getElementById("total");
+
+
+            if (cantitate === 0) {
+
+                continut.innerHTML = "Coșul este gol.";
+
+                total.textContent = "0";
+
+                return;
+
+            }
+
+
+            continut.innerHTML = `
+
+                <div class="produs-cos">
+
+                    <strong>Pantofi Jordan</strong>
+
+                    <p>499 lei / buc</p>
+
+                    <div class="cantitate">
+
+                        <button onclick="scadeProdus()">−</button>
+
+                        <span>${cantitate}</span>
+
+                        <button onclick="adaugaCos()">+</button>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            total.textContent = cantitate * pretProdus;
+
+        }
+
+
+        function deschideCos() {
+
+            document.getElementById("cos").classList.toggle("activ");
+
+        }
+
     </script>
 
 </body>
